@@ -1,0 +1,42 @@
+[
+    {
+        "name": "BBCream",
+        "price": 8.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/10376/10376262.png"
+    },
+    {
+        "name": "Dried Mealworm Snack",
+        "price": 3.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/7549/7549333.png"
+    },
+    {
+        "name": "Potato Chips",
+        "price": 2.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/3050/3050268.png"
+    },
+    {
+        "name": "Cleansing Tissue",
+        "price": 3.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/2750/2750798.png"
+    },
+    {
+        "name": "Konyak Jelly",
+        "price": 3.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/4080/4080546.png"
+    },
+    {
+        "name": "Wasabi Beans",
+        "price": 5.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/3109/3109704.png"
+    },
+    {
+        "name": "Hydrating Mask",
+        "price": 10.0,
+        "img": "https://cdn-icons-png.flaticon.com/512/2859/2859542.png"
+    },
+    {
+        "name": "Hair Coloring Kits",
+        "price": 10.0,
+        "img": "https://cdn-icons-png.flaticon.com/128/3465/3465265.png"
+    }
+]
