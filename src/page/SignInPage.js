@@ -6,9 +6,7 @@ import {Button} from "@mui/material";
 import StyledButtonGroup from "../component/StyledButtonGroup";
 import LabeledInput from "../component/LabledInput";
 import {useState} from "react";
-// import account_list from "../resource/string/account-list.json";
-import api from "../resource/string/api.json";
-import axios from "axios";
+import account_list from "../resource/string/account-list.json";
 
 const SignInPage = () => {
   const [authData, setAuthData] = useState({
@@ -18,21 +16,12 @@ const SignInPage = () => {
   const [error, setError] = useState("");
   const handleSubmit = e => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: api.base_url + "/login",
-      data: {
-        "email": authData.email,
-        "password": authData.password
-      },
-      responseType: "json"
-    }).then(res => {
-      sessionStorage.setItem("olive_auth_tokens", JSON.stringify(res.data));
-      console.log("login success");
-      window.location.href = "/";
-    }).catch(err => {
-      err.response.status === 401 && setError("Invalid Data!")
-    })
+    if (account_list?.filter(account => account.email === authData.email)?.length) {
+        sessionStorage.setItem("olive_auth_tokens", '{"accessToken":"example","refreshToken":"example"}');
+        window.location.href = "/";
+    } else {
+      setError("invalid Data!");
+    }
   };
   const handleIDChange = e => {
     setAuthData({

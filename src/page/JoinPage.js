@@ -6,8 +6,6 @@ import {Button} from "@mui/material";
 import StyledButtonGroup from "../component/StyledButtonGroup";
 import LabeledInput from "../component/LabledInput";
 import {useState} from "react";
-import api from "../resource/string/api.json";
-import axios from "axios";
 const JoinPage = () => {
   const [authData, setAuthData] = useState({
     email: "",
@@ -15,19 +13,6 @@ const JoinPage = () => {
   })
   const handleSubmit = e => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: api.base_url + "/register",
-      data: {
-        "email": authData.email,
-        "password": authData.password
-      },
-      responseType: "json"
-    }).then(res=>{
-      console.log(res);
-      window.location.href = "/signin";
-    });
-    console.log(authData);
   };
   const handleIDChange = e => {
     setAuthData({

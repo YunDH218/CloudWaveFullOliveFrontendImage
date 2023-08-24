@@ -4,22 +4,13 @@ import {Button} from "@mui/material";
 import {useEffect, useState} from "react";
 import {Refresh} from "@mui/icons-material";
 import StyledButtonGroup from "../../component/StyledButtonGroup";
-import axios from "axios";
-import api from "../../resource/string/api.json"
 
 const CartContainer = () => {
   const [cartItems, setCartItems] = useState([]);
   const [refresh, setRefresh] = useState(false);
   useEffect(()=>{
+    setCartItems(JSON.parse(sessionStorage.getItem("olive_cart")));
     setRefresh(false)
-    axios({
-      method: "get",
-      url: api.base_url + '/carts',
-      responseType: 'json',
-      headers: {
-        Authorization: 'Bearer ' + JSON.parse(sessionStorage.getItem("olive_auth_tokens"))?.accessToken
-      }
-    }).then(res=>setCartItems(res.data))
   }, [refresh]);
   return (
     <CartContainerBox>

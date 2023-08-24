@@ -1,19 +1,12 @@
 import {styled} from "styled-components";
 import product_logo from "../../resource/image/oliveyoung_product_txt.svg"
-import axios from "axios";
+import item_list from "../../resource/string/item-list.json"
 import {useState, useEffect} from "react";
-import api from "../../resource/string/api.json";
 
 const ProductsContainer = () => {
   const [items, setItems] = useState([]);
   useEffect(()=>{
-    axios({
-      method: "get",
-      url: api.base_url + "/products",
-      responseType: "json"
-    }).then(res => {
-      setItems(res.data);
-    })
+    setItems(item_list);
   }, []);
   
   return (
@@ -22,16 +15,10 @@ const ProductsContainer = () => {
       <StyledGrid>
         {
           items.map((item, key) => <Item key={key} onClick={e=>{
-            sessionStorage.getItem("olive_auth_tokens") && axios({
-              method: "post",
-              url: api.base_url + '/carts/add',
-              headers: {
-                Authorization: 'Bearer ' + JSON.parse(sessionStorage.getItem("olive_auth_tokens"))?.accessToken
-              },
-              params: {
-                productId: key+1
-              }
-            }).then(res=>console.log(res));
+            if (sessionStorage.getItem("olive_auth_tokens")) {
+              const oldCartItems = JSON.parse(sessionStorage.getItem("olive_cart") || "[]");
+              sessionStorage.setItem("olive_cart", JSON.stringify([...oldCartItems, item]));
+            }
           }}>
             {item.img && <img className="img" src={item.img} alt="product_image"/>}
             <div className="name">{item.name}</div>

@@ -12,6 +12,7 @@ const HeaderContainer = () => {
           <StyledButtonGroup>
             <Button onClick={e=> {
               sessionStorage.removeItem("olive_auth_tokens");
+              sessionStorage.removeItem("olive_cart");
               window.location.reload();
             }}>Logout</Button>
           </StyledButtonGroup>
