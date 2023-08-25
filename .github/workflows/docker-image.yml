@@ -3,11 +3,14 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
 
-  deploy:
-
+  build:
+  
     runs-on: ubuntu-latest
 
     steps:
