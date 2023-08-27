@@ -45,7 +45,9 @@ jobs:
         node-version: '18.x'
 
     - name: Build react project
-      run: npm run build
+      run: |
+        npm install
+        npm run build
     
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
