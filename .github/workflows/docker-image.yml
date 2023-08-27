@@ -38,6 +38,14 @@ jobs:
       uses: docker/setup-buildx-action@v2.9.1
       with:
         platforms: linux/amd64
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    - name: Build react project
+      run: npm run build
     
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -47,6 +55,5 @@ jobs:
         IMAGE_TAG: dynamic
 #        IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
       run: |
-        npm run build
         docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
