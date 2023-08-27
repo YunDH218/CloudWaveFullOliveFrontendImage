@@ -44,8 +44,9 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ecr-repository
-        IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
+        IMAGE_TAG: dynamic
+#        IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
       run: |
+        npm run build
         docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
-        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
