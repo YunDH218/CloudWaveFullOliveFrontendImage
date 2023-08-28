@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       
     - name: Set API_BASE_URL
       run: echo ${{ env.API_BASE_URL }} > src/resource/string/api.json
