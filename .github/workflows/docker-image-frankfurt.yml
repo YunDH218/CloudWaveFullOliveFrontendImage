@@ -27,7 +27,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-region: eu-central-1
-        role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME_FRANKFURT }}
     
     - name: Login to Amazon ECR
       id: login-ecr
