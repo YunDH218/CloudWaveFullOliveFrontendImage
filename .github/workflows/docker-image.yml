@@ -46,6 +46,7 @@ jobs:
 
     - name: Build react project
       run: |
+        npm install -g @angular/cli
         npm ci
         npm run build
     
