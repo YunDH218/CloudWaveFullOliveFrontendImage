@@ -20,7 +20,7 @@ jobs:
     - name: Set API_BASE_URL
       run: |
         json_string='{ "base_url":'
-        json_string='$json_string ${{ env.API_BASE_URL }} }'
+        json_string='$json_string ${{ vars.API_BASE_URL }} }'
         echo json_string > src/resource/string/api.json
 
     - name: Configure AWS credentials
