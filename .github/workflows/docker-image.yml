@@ -17,8 +17,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: Set API_BASE_URL
-      run: echo ${{ env.API_BASE_URL }} > src/resource/string/api.json
+#    - name: Set API_BASE_URL
+#      run: echo ${{ env.API_BASE_URL }} > src/resource/string/api.json
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
