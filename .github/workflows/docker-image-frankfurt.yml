@@ -1,0 +1,64 @@
+name: Docker Image CI Frankfurt
+
+on:
+  push:
+    branches: [ "frankfurt" ]
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+
+  build:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Set API_BASE_URL
+      run: |
+        json_string='{ "base_url":'
+        json_string=$json_string' ${{ vars.API_BASE_URL_EU }} }'
+        echo $json_string > src/resource/string/api.json
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-region: eu-central-1
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+    
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Set short sha
+      id: sha_short
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Docker Setup Buildx
+      uses: docker/setup-buildx-action@v2.9.1
+      with:
+        platforms: linux/amd64
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        registry-url: https://registry.npmjs.org/
+
+    - name: Build react project
+      run: |
+        npm ci
+        npm run build
+    
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ecr-repository-frankfurt
+        IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
+      run: |
+        docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
