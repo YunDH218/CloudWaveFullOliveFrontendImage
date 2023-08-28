@@ -46,8 +46,7 @@ jobs:
 
     - name: Build react project
       run: |
-        npm cache clean --force
-        npm install
+        npm ci
         npm run build
     
     - name: Build, tag, and push image to Amazon ECR
