@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 name: Docker Image CI Frankfurt
 =======
 name: Docker Image CI
 >>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
+=======
+name: Docker Image CI Frankfurt
+>>>>>>> 3a875d9 (Update docker-image-frankfurt.yml)
 
 on:
   push:
