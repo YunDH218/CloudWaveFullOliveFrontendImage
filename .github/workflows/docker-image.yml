@@ -42,11 +42,11 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v3
       with:
-        node-version: '16.x'
+        node-version: 16
+        registry-url: https://registry.npmjs.org/
 
     - name: Build react project
       run: |
-        npm install -g @angular/cli
         npm ci
         npm run build
     
