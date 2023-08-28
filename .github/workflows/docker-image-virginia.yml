@@ -1,8 +1,8 @@
-name: Docker Image CI Frankfurt
+name: Docker Image CI Virginia
 
 on:
   push:
-    branches: [ "frankfurt" ]
+    branches: [ "virginia" ]
 permissions:
   id-token: write
   contents: read
@@ -20,14 +20,14 @@ jobs:
     - name: Set API_BASE_URL
       run: |
         json_string='{ "base_url":'
-        json_string=$json_string' ${{ vars.API_BASE_URL_EU }} }'
+        json_string=$json_string' ${{ vars.API_BASE_URL_US }} }'
         echo $json_string > src/resource/string/api.json
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        aws-region: eu-central-1
-        role-to-assume: ${{ secrets.ROLE_TO_ASSUME_FRANKFURT }}
+        aws-region: us-east-1
+        role-to-assume: ${{ secrets.ROLE_TO_ASSUME_VIRGINIA }}
     
     - name: Login to Amazon ECR
       id: login-ecr
@@ -57,7 +57,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ecr-repository-frankfurt
+        ECR_REPOSITORY: ecr-repository
         IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
       run: |
         docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
