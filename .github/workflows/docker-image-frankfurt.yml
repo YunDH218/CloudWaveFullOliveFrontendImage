@@ -71,7 +71,7 @@ jobs:
 
     - name: 🧨 Change Docker tag
       run: |
-        sed -i "s/frontend-frankfurt:.*/frontend-frankfurt:${{ steps.sha_short.outputs.sha_short }}/g" web-frankfurt.yaml.yaml
+        sed -i "s/frontend-frankfurt:.*/frontend-frankfurt:${{ steps.sha_short.outputs.sha_short }}/g" web-frankfurt.yaml
         git config --global user.email "3500ml@naver.com"
         git config --global user.name "YunDH218"
         git commit -am "triggered by github action"
