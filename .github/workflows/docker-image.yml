@@ -23,37 +23,37 @@ jobs:
         json_string=$json_string' ${{ vars.API_BASE_URL }} }'
         echo $json_string > src/resource/string/api.json
 
-    - name: Configure AWS credentials
+    - name: 🔐Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-region: ap-northeast-2
         role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
     
-    - name: Login to Amazon ECR
+    - name: 🔐Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Set short sha
+    - name: ✨Set short sha
       id: sha_short
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Docker Setup Buildx
+    - name: 🐳Docker Setup Buildx
       uses: docker/setup-buildx-action@v2.9.1
       with:
         platforms: linux/amd64
 
-    - name: Setup Node
+    - name: ✨Setup Node
       uses: actions/setup-node@v3
       with:
         node-version: 16
         registry-url: https://registry.npmjs.org/
 
-    - name: Build react project
+    - name: ✨Build react project
       run: |
         npm ci
         npm run build
     
-    - name: Build, tag, and push image to Amazon ECR
+    - name: ✨Build, tag, and push image to Amazon ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -62,3 +62,17 @@ jobs:
       run: |
         docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: 🧨 Checkout
+      uses: actions/checkout@v3
+      with:
+        repository: 'YunDH218/CloudWaveFullOliveFrontendImage-CD/'
+        token: ${{ secrets.TOKEN_GITHUB }}
+
+    - name: 🧨 Change Docker tag
+      run: |
+        sed -i "s/ecr-repository:.*/ecr-repository:${{ steps.sha_short.outputs.sha_short }}/g" web-deploy.yaml
+        git config --global user.email "3500ml@naver.com"
+        git config --global user.name "YunDH218"
+        git commit -am "triggered by github action"
+        git push origin "main"
