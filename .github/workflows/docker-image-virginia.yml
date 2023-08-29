@@ -71,7 +71,7 @@ jobs:
 
     - name: 🧨 Change Docker tag
       run: |
-        sed -i "s/frontend-virginia:.*/frontend-virginia:${{ steps.sha_short.outputs.sha_short }}/g" web-virginia.yaml
+        sed -i "s/frontend-virginia:.*/frontend-virginia:${{ steps.sha_short.outputs.sha_short }}/g" US/web-virginia.yaml
         git config --global user.email "3500ml@naver.com"
         git config --global user.name "YunDH218"
         git commit -am "triggered by github action"
