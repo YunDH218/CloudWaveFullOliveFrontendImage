@@ -57,7 +57,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ecr-repository
+        ECR_REPOSITORY: frontend-seoul
         IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
       run: |
         docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
@@ -71,7 +71,7 @@ jobs:
 
     - name: 🧨 Change Docker tag
       run: |
-        sed -i "s/ecr-repository:.*/ecr-repository:${{ steps.sha_short.outputs.sha_short }}/g" web-deploy.yaml
+        sed -i "s/frontend-seoul:.*/frontend-seoul:${{ steps.sha_short.outputs.sha_short }}/g" web-deploy.yaml
         git config --global user.email "3500ml@naver.com"
         git config --global user.name "YunDH218"
         git commit -am "triggered by github action"
