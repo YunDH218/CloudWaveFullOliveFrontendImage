@@ -2,7 +2,7 @@ name: Docker Image CI Frankfurt
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "frankfurt" ]
 permissions:
   id-token: write
   contents: read
