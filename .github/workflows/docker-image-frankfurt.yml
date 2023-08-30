@@ -1,26 +1,15 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 name: Docker Image CI Frankfurt
-=======
-name: Docker Image CI
->>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
-=======
-name: Docker Image CI Frankfurt
->>>>>>> 3a875d9 (Update docker-image-frankfurt.yml)
 
 on:
   push:
-    branches: [ "frankfurt" ]
+    branches: [ "main" ]
 permissions:
   id-token: write
   contents: read
 
 jobs:
-
   build:
-  
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -31,7 +20,6 @@ jobs:
         json_string=$json_string' ${{ vars.API_BASE_URL_EU }} }'
         echo $json_string > src/resource/string/api.json
 
-<<<<<<< HEAD
     - name: 🔐Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
@@ -47,64 +35,30 @@ jobs:
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
     - name: 🐳Docker Setup Buildx
-=======
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v3
-      with:
-        aws-region: eu-central-1
-        role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-    
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Set short sha
-      id: sha_short
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-    - name: Docker Setup Buildx
->>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
       uses: docker/setup-buildx-action@v2.9.1
       with:
         platforms: linux/amd64
 
-<<<<<<< HEAD
     - name: ✨Setup Node
-=======
-    - name: Setup Node
->>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
       uses: actions/setup-node@v3
       with:
         node-version: 16
         registry-url: https://registry.npmjs.org/
 
-<<<<<<< HEAD
     - name: ✨Build react project
-=======
-    - name: Build react project
->>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
       run: |
         npm ci
         npm run build
     
-<<<<<<< HEAD
     - name: ✨Build, tag, and push image to Amazon ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: frontend-frankfurt
-=======
-    - name: Build, tag, and push image to Amazon ECR
-      id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ecr-repository-frankfurt
->>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
         IMAGE_TAG: ${{ steps.sha_short.outputs.sha_short }}
       run: |
         docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-<<<<<<< HEAD
 
     - name: 🧨 Checkout
       uses: actions/checkout@v3
@@ -119,5 +73,3 @@ jobs:
         git config --global user.name "YunDH218"
         git commit -am "triggered by github action"
         git push origin "main"
-=======
->>>>>>> bbd46fd (Create docker-image-frankfurt.yml)
