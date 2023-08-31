@@ -73,4 +73,3 @@ jobs:
         git config --global user.name "YunDH218"
         git commit -am "triggered by github action"
         git push origin "main"
-
