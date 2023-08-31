@@ -7,6 +7,7 @@ const HeaderContainer = () => {
   return (
     <HeaderContainerBox>
       <a href="/"><img src={logo} alt="OLIVEYOUNG"/></a>
+      <h2>Github Actions Test Successfully</h2>
       {
         sessionStorage.getItem("olive_auth_tokens") ?
           <StyledButtonGroup>
